@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.rooms.models import Office, Rooms, Equipment
+from apps.rooms.models import Office, Room, Equipment
 
 
 class OfficeSerializer(serializers.ModelSerializer):
@@ -13,12 +13,13 @@ class RoomsSerializer(serializers.ModelSerializer):
     office = OfficeSerializer
 
     class Meta:
-        model = Rooms
+        model = Room
         fields = ['id', 'name', 'office', 'size', 'availability']
+
 
 class EquipmentSerializer(serializers.ModelSerializer):
     office = OfficeSerializer
 
     class Meta:
-        model = Rooms
+        model = Equipment
         fields = ['id', 'eq_type', 'office']

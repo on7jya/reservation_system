@@ -13,12 +13,11 @@ class Office(models.Model):
         return self.name
 
 
-
-class Rooms(models.Model):
-    name = models.CharField(max_length=100)
-    office = models.ForeignKey('reservation.Office', on_delete=models.CASCADE)
-    size = models.IntegerField
-    availability = models.BooleanField
+class Room(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Наименование переговорной')
+    office = models.ForeignKey(Office, on_delete=models.CASCADE, verbose_name='Офис')
+    size = models.IntegerField(verbose_name='Вместимость')
+    availability = models.BooleanField(verbose_name='Доступность для бронирования')
 
     class Meta:
         verbose_name = "Переговорная"
@@ -30,8 +29,8 @@ class Rooms(models.Model):
 
 
 class Equipment(models.Model):
-    eq_type = models.CharField(max_length=80)
-    office = models.ForeignKey('reservation.Office', on_delete=models.CASCADE)
+    eq_type = models.CharField(max_length=80, verbose_name='Тип оборудования')
+    office = models.ForeignKey(Office, on_delete=models.CASCADE, verbose_name='Офис')
 
     class Meta:
         verbose_name = "Оборудование"
@@ -40,4 +39,3 @@ class Equipment(models.Model):
 
     def __str__(self):
         return self.eq_type
-

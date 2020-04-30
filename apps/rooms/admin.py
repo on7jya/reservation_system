@@ -1,3 +1,20 @@
 from django.contrib import admin
+from .models import Office, Room, Equipment
 
-# Register your models here.
+
+@admin.register(Office)
+class OfficeAdmin(admin.ModelAdmin):
+    list_display = ["id", "name"]
+    search_fields = ["id", "name"]
+
+
+@admin.register(Room)
+class RoomAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "office", "size", "availability"]
+    search_fields = ["id", "name"]
+
+
+@admin.register(Equipment)
+class EquipmentAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "office", "eq_type"]
+    search_fields = ["id", "name"]

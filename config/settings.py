@@ -52,6 +52,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "apps.reservation.apps.ReservationConfig",
     "apps.rooms.apps.RoomsConfig",
+    "apps.users.apps.UsersConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -63,7 +64,7 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
-AUTH_USER_MODEL = "reservation.Person"
+AUTH_USER_MODEL = "users.Person"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

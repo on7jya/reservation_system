@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class RoomsConfig(AppConfig):
-    name = 'rooms'
+    name = 'apps.rooms'
+    verbose_name = 'Переговорки'

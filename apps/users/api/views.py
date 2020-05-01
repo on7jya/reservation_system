@@ -9,7 +9,6 @@ class ListPersonAPIView(generics.ListAPIView):
     queryset = Person.objects.all()
 
 
-class PersonAPIView(generics.ListAPIView):
+class PersonAPIView(generics.RetrieveAPIView):
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
-

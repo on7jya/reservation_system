@@ -1,9 +1,38 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from rest_framework import generics
 
-def test_html(request):
-    return HttpResponse('testing html')
+from apps.rooms.models import Office, Room, Equipment
+from apps.rooms.api.serializers import OfficeSerializer, RoomsSerializer, EquipmentSerializer
 
-def test_json(request):
-    pass
-    # return JsonResponse(request)
+
+# GET list
+class ListOfficeAPIView(generics.ListAPIView):
+    serializer_class = OfficeSerializer
+    queryset = Office.objects.all()
+
+
+class ListRoomAPIView(generics.ListAPIView):
+    serializer_class = RoomsSerializer
+    queryset = Room.objects.all()
+
+
+class ListEquipmentAPIView(generics.ListAPIView):
+    serializer_class = EquipmentSerializer
+    queryset = Equipment.objects.all()
+
+
+##########################################
+
+# POST PUT PATCH DELETE
+class OfficeAPIView(generics.RetrieveAPIView):
+    serializer_class = OfficeSerializer
+    queryset = Office.objects.all()
+
+
+class RoomAPIView(generics.RetrieveAPIView):
+    serializer_class = RoomsSerializer
+    queryset = Room.objects.all()
+
+
+class EquipmentAPIView(generics.RetrieveAPIView):
+    serializer_class = EquipmentSerializer
+    queryset = Equipment.objects.all()

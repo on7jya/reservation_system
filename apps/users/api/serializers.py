@@ -6,4 +6,5 @@ from apps.users.models import Person
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['id', 'last_name', 'first_name', 'email']
+        fields = ['id', 'password', 'last_login', 'is_superuser', 'username', 'first_name',
+                  'last_name', 'email', 'is_staff', 'is_active', 'date_joined', 'office_id']

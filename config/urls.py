@@ -25,4 +25,6 @@ urlpatterns = [
     re_path(r"^redoc/$", schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path(settings.ADMIN_URL, admin.site.urls),
     path("api/user/", include("apps.users.urls", namespace="users")),
+    path("api/", include("apps.rooms.urls", namespace="rooms")),
+    path("api/reservation/", include("apps.reservation.urls", namespace="reservation")),
 ]

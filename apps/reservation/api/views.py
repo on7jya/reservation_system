@@ -4,8 +4,14 @@ from apps.reservation.models import Reservation
 from apps.reservation.api.serializers import ReservationSerializer
 
 
-class ListReservationAPIView(generics.ListCreateAPIView):
+class ListReservationAPIView(generics.ListAPIView):
     """Список всех бронирований"""
+    serializer_class = ReservationSerializer
+    queryset = Reservation.objects.all()
+
+
+class AddReservationAPIView(generics.CreateAPIView):
+    """Добавить новое бронирование"""
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
 

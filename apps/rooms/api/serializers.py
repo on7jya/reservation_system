@@ -22,4 +22,4 @@ class EquipmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Equipment
-        fields = ['id', 'eq_type', 'office']
+        fields = ['id', 'eq_type', 'room']

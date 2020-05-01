@@ -8,6 +8,6 @@ from apps.reservation.api.views import (
 app_name = "reservation"
 
 urlpatterns = [
-    path("list/", ListReservationAPIView.as_view(), name='reservation'),
+    path("list/", ListReservationAPIView.as_view(), name='reservation-list'),
     path("<slug:pk>/", ReservationAPIView.as_view(), name='reservation-detail'),
 ]

@@ -30,7 +30,7 @@ class Room(models.Model):
 
 class Equipment(models.Model):
     eq_type = models.CharField(max_length=80, verbose_name='Тип оборудования')
-    office = models.ForeignKey(Office, on_delete=models.CASCADE, verbose_name='Офис')
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, verbose_name='Переговорная')
 
     class Meta:
         verbose_name = "Оборудование"

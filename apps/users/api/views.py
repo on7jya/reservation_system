@@ -5,10 +5,12 @@ from apps.users.api.serializers import PersonSerializer
 
 
 class ListPersonAPIView(generics.ListAPIView):
+    """Список всех сотрудников"""
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
 
 
 class PersonAPIView(generics.RetrieveAPIView):
+    """Иныормация по конкретному сотруднику {id}"""
     serializer_class = PersonSerializer
     queryset = Person.objects.all()

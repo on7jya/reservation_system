@@ -16,5 +16,5 @@ class RoomAdmin(admin.ModelAdmin):
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
-    list_display = ["id", "office", "eq_type"]
+    list_display = ["id", "room", "eq_type"]
     search_fields = ["id"]

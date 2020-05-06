@@ -16,3 +16,6 @@ psycopg2==2.8.5  # https://github.com/psycopg/psycopg2
 
 # Documentation
 drf-yasg==1.15.0  # https://github.com/axnsan12/drf-yasg
+
+# Timezone
+pytz==2019.1  # https://github.com/stub42/pytz

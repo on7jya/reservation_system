@@ -31,7 +31,7 @@ class ListRoomsInOfficeAPIView(generics.ListAPIView):
     serializer_class = RoomsSerializer
 
     def get_queryset(self):
-        office = self.kwargs['pk']
+        office = self.kwargs.get('pk')
         return Room.objects.filter(office__room=office)
 
 
@@ -40,7 +40,7 @@ class ListPersonsInOfficeAPIView(generics.ListAPIView):
     serializer_class = PersonSerializer
 
     def get_queryset(self):
-        office = self.kwargs['pk']
+        office = self.kwargs.get('pk')
         return Person.objects.filter(office__room=office)
 
 

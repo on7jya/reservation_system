@@ -28,7 +28,7 @@ class ListReservationTodayAPIView(generics.ListAPIView):
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.filter(
         room__reservation__start_meeting_time__gte=F('start_meeting_time')).filter(
-        room__reservation__start_meeting_time__lte=F('start_meeting_time') + timedelta(days=1))
+        room__reservation__start_meeting_time__lte=F('start_meeting_time') + timedelta(days=1)).distinct()
 
 
 class ListReservationRoomTodayAPIView(generics.ListAPIView):
@@ -39,4 +39,5 @@ class ListReservationRoomTodayAPIView(generics.ListAPIView):
         room = self.kwargs.get('pk')
         return Reservation.objects.filter(
             room__reservation__start_meeting_time__gte=F('start_meeting_time')).filter(
-            room__reservation__start_meeting_time__lte=F('start_meeting_time') + timedelta(days=1)).filter(room_id=room)
+            room__reservation__start_meeting_time__lte=F('start_meeting_time') + timedelta(days=1)).filter(
+            room_id=room).distinct()

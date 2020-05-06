@@ -20,12 +20,14 @@ CHOICES_CANCELATION = [
 
 
 class Reservation(TimeStampedModel):
-    room = models.ForeignKey('rooms.Room', null=False, blank=False, on_delete=models.CASCADE,
+    room = models.ForeignKey('rooms.Room', null=False, blank=False,
+                             on_delete=models.CASCADE,
                              verbose_name='Переговорная')
-    created_by = models.ForeignKey('users.Person', null=False, blank=False, on_delete=models.CASCADE,
-                                   related_name="created_by",
+    created_by = models.ForeignKey('users.Person', null=False, blank=False,
+                                   on_delete=models.CASCADE,
                                    verbose_name='Инициатор встречи')
-    invited = models.ManyToManyField('users.Person', related_name="invited", default=None, null=True, blank=True,
+    invited = models.ManyToManyField('users.Person', default=None, null=True, blank=True,
+                                     related_name="invited",
                                      verbose_name='Участники встречи')
     subject = models.CharField(max_length=100, null=False, blank=False, verbose_name='Тема встречи')
     start_meeting_time = models.DateTimeField(null=False, blank=False, verbose_name='Время начала встречи')

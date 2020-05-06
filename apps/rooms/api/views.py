@@ -1,5 +1,4 @@
 from rest_framework import generics
-from rest_framework.generics import get_object_or_404
 
 from apps.rooms.models import Office, Room, Equipment
 from apps.rooms.api.serializers import OfficeSerializer, RoomsSerializer, EquipmentSerializer

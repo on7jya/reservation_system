@@ -1,6 +1,6 @@
 from django.db.models import F
 from rest_framework import generics
-from datetime import datetime, timedelta
+from datetime import timedelta
 from apps.reservation.models import Reservation
 from apps.reservation.api.serializers import ReservationSerializer
 
@@ -24,7 +24,7 @@ class ReservationAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ListReservationTodayAPIView(generics.ListAPIView):
-    """Список всех бронирований на сегодня"""
+    """Список всех бронирований на день вперед"""
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.filter(
         room__reservation__start_meeting_time__gte=F('start_meeting_time')).filter(
@@ -32,7 +32,7 @@ class ListReservationTodayAPIView(generics.ListAPIView):
 
 
 class ListReservationRoomTodayAPIView(generics.ListAPIView):
-    """Список бронирований переговорной {id} на сегодня"""
+    """Список бронирований переговорной {id} на день вперед"""
     serializer_class = ReservationSerializer
 
     def get_queryset(self):

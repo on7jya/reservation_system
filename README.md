@@ -22,7 +22,7 @@
 Здесь дополнительные параметры [Django Docs](https://docs.djangoproject.com/en/2.2/ref/settings/) или по комментариям в `settings.py`.
 
 #### Tests
-Используется pytest, для запуска тестов выполнить `python manage.py test`
+Используется pytest, для запуска тестов выполнить `python manage.py test` или `py.test --cov=apps`
 
 ## API:
 ### Reservation:
@@ -60,7 +60,7 @@
 | **GET** | `/equipment/list/` |  Список всего оборудования | - |
 | **GET** | `/equipment/{id}/` |  Информация по конкретной единице оборудования {id} | id |
 
-### Equipment:
+### User:
 | Method        | URL           | Description  | Required Data Parameters |
 | ------------- | ------------- | ------------ | ------ |
 | **GET** | `/user/list/` |  Список всех сотрудников | - |

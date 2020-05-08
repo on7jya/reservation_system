@@ -95,8 +95,8 @@ class TestUrlsHttpResponse(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(resp['content-type'], 'application/json')
 
-    def test_put_reservation_detail(self):
-        """Тест изменения информации о бронирования {id} """
+    def test_put_valid_reservation_detail(self):
+        """Тест изменения информации о бронирования {id} - валидный запрос"""
         for id_num in range(10, 100, 1):
             resp = self.client.put(reverse('reservation:reservation-detail', args=[id_num, ]),
                                    data=json.dumps(valid_request),
@@ -105,8 +105,21 @@ class TestUrlsHttpResponse(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(resp['content-type'], 'application/json')
 
-    def test_patch_reservation_detail(self):
-        """Тест частичного изменения информации о бронирования {id} """
+    def test_put_invalid_reservation_detail(self):
+        """Тест изменения информации о бронирования {id} - невалидный запрос"""
+        for id_num in range(10, 100, 1):
+            original_reservation = Reservation.objects.get(pk=id_num)
+            resp = self.client.put(reverse('reservation:reservation-detail', args=[id_num, ]),
+                                   data=json.dumps(invalid_request),
+                                   content_type='application/json',
+                                   )
+            new_reservation = Reservation.objects.get(pk=id_num)
+            self.assertEqual(original_reservation, new_reservation)
+            self.assertEqual(resp.status_code, 400)
+            self.assertEqual(resp['content-type'], 'application/json')
+
+    def test_patch_valid_reservation_detail(self):
+        """Тест частичного изменения информации о бронирования {id} - валидный запрос """
         for id_num in range(10, 100, 1):
             resp = self.client.patch(reverse('reservation:reservation-detail', args=[id_num, ]),
                                      data=json.dumps(valid_request),
@@ -115,14 +128,33 @@ class TestUrlsHttpResponse(TestCase):
             self.assertEqual(resp.status_code, 200)
             self.assertEqual(resp['content-type'], 'application/json')
 
-    def test_delete_reservation_detail(self):
-        """Тест удаления информации о бронирования {id} """
+    def test_patch_invalid_reservation_detail(self):
+        """Тест частичного изменения информации о бронирования {id} - невалидный запрос"""
+        for id_num in range(10, 100, 1):
+            original_reservation = Reservation.objects.get(pk=id_num)
+            resp = self.client.patch(reverse('reservation:reservation-detail', args=[id_num, ]),
+                                     data=json.dumps(invalid_request),
+                                     content_type='application/json',
+                                     )
+            new_reservation = Reservation.objects.get(pk=id_num)
+            self.assertEqual(original_reservation, new_reservation)
+            self.assertEqual(resp.status_code, 400)
+            self.assertEqual(resp['content-type'], 'application/json')
+
+    def test_delete_valid_reservation_detail(self):
+        """Тест удаления существующего бронирования {id} """
         for id_num in range(10, 100, 1):
             resp = self.client.delete(reverse('reservation:reservation-detail', args=[id_num, ]))
             self.assertEqual(resp.status_code, 204)
             # A successful response SHOULD be 200 (OK) if the response includes an entity describing the status,
-        # 202 (Accepted) if the action has not yet been enacted,
-        # or 204 (No Content) if the action has been enacted but the response does not include an entity.
+            # 202 (Accepted) if the action has not yet been enacted,
+            # or 204 (No Content) if the action has been enacted but the response does not include an entity.
+
+    def test_delete_invalid_reservation_detail(self):
+        """Тест удаления несуществующего бронирования {id} """
+        for id_num in range(100, 1000, 100):
+            resp = self.client.delete(reverse('reservation:reservation-detail', args=[id_num, ]))
+            self.assertEqual(resp.status_code, 404)
 
     def test_post_create_valid_reservation(self):
         """Тест создания бронирования по валидному запросу"""
@@ -135,10 +167,13 @@ class TestUrlsHttpResponse(TestCase):
 
     def test_post_create_invalid_reservation(self):
         """Тест создания бронирования по невалидному запросу"""
+        count_before = Reservation.objects.count()
         resp = self.client.post(reverse('reservation:reservation-create'),
                                 data=json.dumps(invalid_request),
                                 content_type='application/json',
                                 )
+        count_after = Reservation.objects.count()
+        self.assertEqual(count_after, count_before)
         self.assertEqual(resp.status_code, 400)
         self.assertEqual(resp['content-type'], 'application/json')
 

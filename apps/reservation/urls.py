@@ -17,7 +17,7 @@ router.register(r'', ListReservationAPIView)
 
 urlpatterns = [
     # path("list/", ListReservationAPIView.as_view(), name='reservation-list'),
-    url(r"list/", include(router.urls)),
+    url(r"list/", include(router.urls), name='reservation-list'),
     path("list/today/", ListReservationTodayAPIView.as_view(), name='reservation-today-list'),
     path("list/today/<slug:pk>", ListReservationRoomTodayAPIView.as_view(), name='reservation-room-today-list'),
     path("<slug:pk>", ReservationAPIView.as_view(), name='reservation-detail'),

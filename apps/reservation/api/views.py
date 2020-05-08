@@ -1,14 +1,28 @@
 from django.db.models import F
-from rest_framework import generics
+from rest_framework import generics, filters, viewsets
 from datetime import timedelta
 from apps.reservation.models import Reservation
 from apps.reservation.api.serializers import ReservationSerializer
 
 
-class ListReservationAPIView(generics.ListAPIView):
+class DateRangeFilter(filters.BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        if 'start_date_range' in request.GET and 'end_date_range' in request.GET:
+            if request.GET['end_date_range'] < request.GET['start_date_range']:
+                return []
+            else:
+                return queryset.filter(
+                    start_meeting_time__lte=request.GET['end_date_range'],
+                    end_meeting_time__gte=request.GET['start_date_range']
+                )
+        return queryset
+
+
+class ListReservationAPIView(viewsets.ReadOnlyModelViewSet):
     """Список всех бронирований"""
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
+    filter_backends = (DateRangeFilter,)
 
 
 class AddReservationAPIView(generics.CreateAPIView):

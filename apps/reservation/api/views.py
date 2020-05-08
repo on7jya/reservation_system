@@ -18,7 +18,7 @@ class DateRangeFilter(filters.BaseFilterBackend):
         return queryset
 
 
-class ListReservationAPIView(viewsets.ModelViewSet):
+class ListReservationAPIView(viewsets.ReadOnlyModelViewSet):
     """Список всех бронирований"""
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()

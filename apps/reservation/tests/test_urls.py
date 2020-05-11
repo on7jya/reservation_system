@@ -1,74 +1,22 @@
-import datetime
 import json
-import random
 from datetime import timedelta
 
 from django.db.models import F
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
 
 from apps.reservation.api.serializers import ReservationSerializer
-from apps.rooms.models import Room, Office
-from apps.users.models import Person
 from apps.reservation.models import Reservation
-
-valid_request = {
-    "created_by": "10",
-    "room": "10",
-    "subject": "Повестка встречи",
-    "start_meeting_time": "2020-05-06T16:42:20.880Z",
-    "end_meeting_time": "2020-05-06T18:42:20.881Z",
-    "state": "0",
-    "state_canceled": "0"
-}
-
-invalid_request = {
-    "created_by": "1",
-    "subject": "Повестка встречи",
-    "start_meeting_time": "2021-05-06T16:42:20.880Z",
-    "end_meeting_time": "",
-    "state": "0",
-    "state_canceled": "0"
-}
-
-
-def random_string(length):
-    """Возвращает идентификатор из 11 символов"""
-    chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'
-    chars_2 = 'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя'
-    return ''.join([random.choice(chars + chars_2) for i in range(0, length)])
-
-
-def random_date(start):
-    """Возвращает рандомную дату между start и start+1 час"""
-    delta = datetime.timedelta(hours=1)
-    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
-    random_second = random.randrange(int_delta)
-    return start + timedelta(seconds=random_second)
+from apps.reservation.tests.base import valid_request, invalid_request, random_data
 
 
 class TestUrlsHttpResponse(TestCase):
+    """Тестирование отдаваемых сервером HTTP ответов при наличии данных"""
 
     def setUp(self):
         """Тестовые данные"""
         for id_num in range(10, 100, 1):
-            office = Office.objects.create(id=id_num, name=random_string(50))
-            user = Person.objects.create(
-                id=id_num, password=random_string(11),
-                username=random_string(20),
-                first_name=random_string(10), last_name=random_string(10),
-                email=random_string(10), office=office
-            )
-            room = Room.objects.create(id=id_num, name=random_string(10), office=office, size=random.randint(1, 100),
-                                       availability=True)
-
-            tz = timezone.get_current_timezone()
-            begin = tz.localize(datetime.datetime(2116, 6, 1, 8, 0, 0))
-            reservation = Reservation.objects.create(id=id_num, room=room, created_by=user,
-                                                     subject=random_string(50),
-                                                     start_meeting_time=random_date(begin),
-                                                     end_meeting_time=random_date(begin) + datetime.timedelta(hours=2))
+            random_data(id_num, True)
 
     def test_get_reservation_list(self):
         """Тест - получение полного списка бронирований"""
@@ -183,22 +131,7 @@ class TestResponseIsValid(TestCase):
     def setUp(self):
         """Тестовые данные"""
         for id_num in range(10, 100, 1):
-            office = Office.objects.create(id=id_num, name=random_string(50))
-            user = Person.objects.create(
-                id=id_num, password=random_string(11),
-                username=random_string(20),
-                first_name=random_string(10), last_name=random_string(10),
-                email=random_string(10), office=office
-            )
-            room = Room.objects.create(id=id_num, name=random_string(10), office=office, size=random.randint(1, 100),
-                                       availability=True)
-
-            tz = timezone.get_current_timezone()
-            begin = tz.localize(datetime.datetime(2116, 6, 1, 8, 0, 0))
-            reservation = Reservation.objects.create(id=id_num, room=room, created_by=user,
-                                                     subject=random_string(50),
-                                                     start_meeting_time=random_date(begin),
-                                                     end_meeting_time=random_date(begin) + datetime.timedelta(hours=2))
+            random_data(id_num, True)
 
     def test_get_reservation_list_return_all_items(self):
         """Тест - валидность получения полного списка бронирований"""

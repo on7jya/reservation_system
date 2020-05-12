@@ -19,7 +19,7 @@ class DateRangeFilter(filters.BaseFilterBackend):
 
 
 class ListReservationAPIView(viewsets.ReadOnlyModelViewSet):
-    """Список всех бронирований"""
+    """Список всех бронирований/Список всех бронирований переговорной {id}"""
     serializer_class = ReservationSerializer
     queryset = Reservation.objects.all()
     filter_backends = (DateRangeFilter,)

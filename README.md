@@ -22,7 +22,8 @@
 Здесь дополнительные параметры [Django Docs](https://docs.djangoproject.com/en/2.2/ref/settings/) или по комментариям в `settings.py`.
 
 #### Tests
-Используется pytest, для запуска тестов выполнить `python manage.py test` или `py.test --cov=apps`
+Используется pytest, для запуска тестов выполнить `python manage.py test` или `py.test --cov=apps`.
+Для генерации отчета в HTML использовать команду `py.test --cov-report html` .
 
 ## API:
 ### Reservation:

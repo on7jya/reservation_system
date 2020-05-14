@@ -1,8 +1,14 @@
-from django.db.models import F
-from rest_framework import generics, filters, viewsets
 from datetime import timedelta
+
+from django.db.models import F
+from django.utils.decorators import method_decorator
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import generics, filters, viewsets
+
+from apps.reservation.api import docs
+from apps.reservation.api.serializers import ReservationSerializer, ReservationIdSerializer
 from apps.reservation.models import Reservation
-from apps.reservation.api.serializers import ReservationSerializer
+from apps.reservation.services import ApproveReservationService, CancelReservationService
 
 
 class DateRangeFilter(filters.BaseFilterBackend):
@@ -55,3 +61,27 @@ class ListReservationRoomTodayAPIView(generics.ListAPIView):
             room__reservation__start_meeting_time__gte=F('start_meeting_time')).filter(
             room__reservation__start_meeting_time__lte=F('start_meeting_time') + timedelta(days=1)).filter(
             room_id=room).distinct()
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(**docs.reservation_approve))
+class ApproveReservationView(generics.GenericAPIView):
+    serializer_class = ReservationIdSerializer
+    queryset = Reservation.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        self.perform_action()
+
+    def perform_action(self):
+        ApproveReservationService(reservation=self.get_object()).execute()
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(**docs.reservation_cancel))
+class CancelReservationView(generics.GenericAPIView):
+    serializer_class = ReservationIdSerializer
+    queryset = Reservation.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        self.perform_action()
+
+    def perform_action(self):
+        CancelReservationService(reservation=self.get_object()).execute()

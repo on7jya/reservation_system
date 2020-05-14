@@ -15,3 +15,11 @@ class ReservationSerializer(serializers.ModelSerializer):
         if attrs['start_meeting_time'] >= attrs['end_meeting_time']:
             raise ValidationError({'end_meeting_time': 'End date should be after start date'})
         return attrs
+
+
+class ReservationIdSerializer(serializers.Serializer):
+    reservation = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        queryset=Reservation.objects.all().only('id'),
+        required=True
+    )

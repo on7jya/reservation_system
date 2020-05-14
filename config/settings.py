@@ -47,6 +47,9 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "drf_yasg",
     "debug_toolbar",
+    'celery',
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 LOCAL_APPS = [
@@ -186,3 +189,54 @@ LOGGING = {
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }
+
+# CELERY
+# ------------------------------------------------------------------------------
+from celery import Celery
+
+BROKER_HOST = "localhost"
+BROKER_BACKEND = "redis"
+BROKER_USER = ""
+BROKER_PASSWORD = ""
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_VHOST = "0"
+REDIS_DB = 0
+REDIS_CONNECT_RETRY = True
+CELERY_SEND_EVENTS = True
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_TASK_RESULT_EXPIRES = 10
+CELERYBEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"
+CELERY_ALWAYS_EAGER = False
+FORKED_BY_MULTIPROCESSING = 1
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_IMPORTS = \
+    (
+        "apps.reservation.tasks",
+    )
+CELERY_ROUTES = \
+    {
+        "my_queue":
+            {
+                "queue": "my_queue"
+            },
+    }
+CELERY_QUEUES = \
+    {
+        "my_queue":
+            {
+                "exchange": "my_app",
+                "exchange_type": "direct",
+                "binding_key": "my_queue"
+            },
+    }
+celery = Celery(broker='amqp://guest@localhost//')
+
+AUTO_CANCEL_INTERVAL = 15

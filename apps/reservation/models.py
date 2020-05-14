@@ -1,5 +1,10 @@
+import datetime
+from datetime import timedelta
+
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
+
+from apps.reservation.managers import ReservationManager
 
 PENDING = "0"
 ACCEPTED = "1"
@@ -37,6 +42,24 @@ class Reservation(TimeStampedModel):
                              verbose_name='Состояние бронирования')
     state_canceled = models.CharField(max_length=1, null=True, blank=True, default=None, choices=CHOICES_CANCELATION,
                                       verbose_name='Состояние отмены брони')
+
+    objects = ReservationManager()
+
+    def auto_cancel(self):
+        if self.state == "0":
+            self.state = "2"
+            self.state_canceled = "1"
+            self.cancel_reservation_time = self.start_meeting_time + timedelta(minutes=15)
+
+    def manual_cancel(self):
+        if self.state == "0":
+            self.state = "2"
+            self.state_canceled = "0"
+            self.cancel_reservation_time = datetime.datetime.now()
+
+    def accept(self):
+        if self.state == "0":
+            self.state = "1"
 
     class Meta:
         verbose_name = "Бронирование"

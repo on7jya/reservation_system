@@ -6,6 +6,13 @@ django-debug-toolbar==1.11  # https://github.com/jazzband/django-debug-toolbar
 django-extensions==2.1.7  # https://github.com/django-extensions/django-extensions
 django-coverage-plugin==1.6.0  # https://github.com/nedbat/django_coverage_plugin
 pytest-django==3.5.0  # https://github.com/pytest-dev/pytest-django
+celery==4.4.2  # https://github.com/celery/celery
+django-celery==3.3.1  # https://github.com/celery/django-celery/
+django-celery-beat==2.0.0  # https://github.com/celery/django-celery-beat
+django-celery-results==1.2.1  # https://github.com/celery/django-celery-results
+redis==3.5.1  # https://github.com/andymccurdy/redis-py
+django-redis==4.11.0  # https://github.com/niwinz/django-redis
+
 
 # Django REST Framework
 djangorestframework==3.9.4  # https://github.com/encode/django-rest-framework

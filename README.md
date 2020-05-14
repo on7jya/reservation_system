@@ -58,6 +58,8 @@ $ redis-server
 | **PUT** | `/reservation/{id}` |  Изменить информацию о бронировании {id} | id, data: {created_by, room, subject, start_meeting_time, end_meeting_time} |
 | **PATCH** | `/reservation/{id}` |  Частично изменить информацию о бронировании {id} | id, data: {created_by, room, subject, start_meeting_time, end_meeting_time} |
 | **DELETE** | `/reservation/{id}` |  Удалить бронирование {id} | id |
+| **GET** | `/reservation/{id}/approve/` |  Подтвердить бронирование {id} | id |
+| **GET** | `/reservation/{id}/reject/` |  Отменить бронирование {id} | id |
 
 ### Office:
 | Method        | URL           | Description  | Required Data Parameters |
@@ -85,4 +87,3 @@ $ redis-server
 | ------------- | ------------- | ------------ | ------ |
 | **GET** | `/user/list/` |  Список всех сотрудников | - |
 | **GET** | `/user/{id}/` |  Информация по конкретному сотруднику {id} | id |
->>>>>>> README.md

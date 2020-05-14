@@ -118,11 +118,11 @@ class TimeZoneTest(TestCase):
         self.assertEqual(timeuntil(today + self.oneweek, today), '1\xa0неделя')
 
     def test_naive_datetime_with_tzinfo_attribute(self):
-        class naive(datetime.tzinfo):
+        class Naive(datetime.tzinfo):
             def utcoffset(self, dt):
                 return None
 
-        future = datetime.datetime(2080, 1, 1, tzinfo=naive())
+        future = datetime.datetime(2080, 1, 1, tzinfo=Naive())
         self.assertEqual(timesince(future), '0\xa0минут')
-        past = datetime.datetime(1980, 1, 1, tzinfo=naive())
+        past = datetime.datetime(1980, 1, 1, tzinfo=Naive())
         self.assertEqual(timeuntil(past), '0\xa0минут')

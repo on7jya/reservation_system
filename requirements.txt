@@ -13,7 +13,6 @@ django-celery-results==1.2.1  # https://github.com/celery/django-celery-results
 redis==3.5.1  # https://github.com/andymccurdy/redis-py
 django-redis==4.11.0  # https://github.com/niwinz/django-redis
 
-eventlet==0.25.2
 
 # Django REST Framework
 djangorestframework==3.9.4  # https://github.com/encode/django-rest-framework

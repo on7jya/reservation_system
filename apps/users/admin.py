@@ -87,7 +87,6 @@ class LogEntryAdmin(admin.ModelAdmin):
 
     list_display_links = [
         'action_time',
-        'change_message',
     ]
     list_display = [
         'action_time',
@@ -118,7 +117,7 @@ class LogEntryAdmin(admin.ModelAdmin):
             # try returning an actual link instead of object repr string
             try:
                 url = reverse(
-                    'admin:{}_{}_change'.format(content_type.app_label,
+                    'admin.{}_{}_change'.format(content_type.app_label,
                                                 content_type.model),
                     args=[obj.object_id]
                 )
@@ -129,7 +128,7 @@ class LogEntryAdmin(admin.ModelAdmin):
 
     object_link.allow_tags = True
     object_link.admin_order_field = 'object_repr'
-    object_link.short_description = 'object'
+    object_link.short_description = 'Объект'
 
     def user_link(self, obj):
         content_type = ContentType.objects.get_for_model(type(obj.user))
@@ -137,7 +136,7 @@ class LogEntryAdmin(admin.ModelAdmin):
         try:
             # try returning an actual link instead of object repr string
             url = reverse(
-                'admin:{}_{}_change'.format(content_type.app_label,
+                'admin.{}_{}_change'.format(content_type.app_label,
                                             content_type.model),
                 args=[obj.user.pk]
             )
@@ -147,8 +146,8 @@ class LogEntryAdmin(admin.ModelAdmin):
         return user_link
 
     user_link.allow_tags = True
-    user_link.admin_order_field = 'user'
-    user_link.short_description = 'user'
+    user_link.admin_order_field = 'Пользователь'
+    user_link.short_description = 'Пользователь'
 
     def get_queryset(self, request):
         queryset = super(LogEntryAdmin, self).get_queryset(request)
@@ -163,7 +162,7 @@ class LogEntryAdmin(admin.ModelAdmin):
     def action_description(self, obj):
         return action_names[obj.action_flag]
 
-    action_description.short_description = 'Action'
+    action_description.short_description = 'Действие'
 
 
 admin.site.register(LogEntry, LogEntryAdmin)

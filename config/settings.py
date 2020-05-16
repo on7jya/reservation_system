@@ -240,3 +240,15 @@ CELERY_QUEUES = \
 celery = Celery(broker='amqp://guest@localhost//')
 
 AUTO_CANCEL_INTERVAL = 15
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://e0fdc09944ac40c6bdfbcaf38dcd49e9@o393311.ingest.sentry.io/5242187",
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)

@@ -44,6 +44,11 @@ $ celery -A config beat -l info -S django
 $ redis-server
 ```
 
+## Links for localhost
+[Admin page](http://localhost:8000/admin)
+[Swagger](http://localhost:8000/swagger)
+[Redoc](http://localhost:8000/redoc)
+
 ## API:
 ### Reservation:
 | Method        | URL           | Description  | Required Data Parameters |

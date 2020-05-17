@@ -41,8 +41,12 @@ def log_change_mes(request, object, message):
     The default implementation creates an admin LogEntry object.
     """
     from django.contrib.admin.models import LogEntry, CHANGE
+    if request.user.pk is None:
+        user = 1
+    else:
+        user = request.user.pk
     l = LogEntry.objects.log_action(
-        user_id=request.user.pk,
+        user_id=user,
         content_type_id=ContentType.objects.get_for_model(object).pk,
         object_id=object.pk,
         object_repr=force_text(object),

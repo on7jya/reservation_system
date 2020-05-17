@@ -23,3 +23,9 @@ class AlreadyCanceled(APIException):
     status_code = 400
     default_detail = 'Бронирование уже было отменено ранее!'
     default_code = 'already_canceled'
+
+
+class CreatedByAnotherUser(APIException):
+    status_code = 400
+    default_detail = 'Бронирование было создано другим пользователем!'
+    default_code = 'created_by_another_user'

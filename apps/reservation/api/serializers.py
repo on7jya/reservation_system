@@ -5,6 +5,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from apps.reservation.models import Reservation
+from config.settings import START_WORK_OFFICE, END_WORK_OFFICE
 
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -20,11 +21,11 @@ class ReservationSerializer(serializers.ModelSerializer):
         if attrs['start_meeting_time'] <= datetime.now(LocalTimezone()):
             raise ValidationError({'start_meeting_time': 'Start date should be after current date'})
         if attrs['end_meeting_time'] - attrs['start_meeting_time'] >= timedelta(days=1):
-            raise ValidationError({'start_meeting_time': 'Meeting cannot last more than 1 day'})
-        if attrs['start_meeting_time'].time() < time(hour=8, minute=0, second=0):
-            raise ValidationError({'end_meeting_time': 'Start date should be upper 08.00'})
-        if attrs['end_meeting_time'].time() > time(hour=22, minute=0, second=0):
-            raise ValidationError({'end_meeting_time': 'End date should be lower 22.00'})
+            raise ValidationError({'end_meeting_time': 'Meeting cannot last more than 1 day'})
+        if attrs['start_meeting_time'].time() < START_WORK_OFFICE:
+            raise ValidationError({'start_meeting_time': 'Start date should be upper {}'.format(START_WORK_OFFICE)})
+        if attrs['end_meeting_time'].time() > END_WORK_OFFICE:
+            raise ValidationError({'end_meeting_time': 'End date should be lower {}'.format(END_WORK_OFFICE)})
         return attrs
 
 

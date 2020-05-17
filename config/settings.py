@@ -20,6 +20,8 @@ import os
 #     └── manage.py
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from datetime import time
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
@@ -240,6 +242,8 @@ CELERY_QUEUES = \
 celery = Celery(broker='amqp://guest@localhost//')
 
 AUTO_CANCEL_INTERVAL = 15
+START_WORK_OFFICE = time(hour=8, minute=0, second=0)
+END_WORK_OFFICE = time(hour=22, minute=0, second=0)
 
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration

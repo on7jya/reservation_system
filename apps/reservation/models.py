@@ -47,6 +47,10 @@ class Reservation(TimeStampedModel):
 
     objects = ReservationManager()
 
+    def get_reservations_created_by_user(self, request):
+        queryset = Reservation.objects.filter(created_by=request.user).values('id')
+        return queryset
+
     def auto_cancel(self):
         if self.state == "0":
             self.state = "2"

@@ -6,7 +6,12 @@ from datetime import timedelta, datetime
 from celery import Celery
 from celery.task import periodic_task
 from celery.utils.time import LocalTimezone
+from django.contrib.admin.models import LogEntry, CHANGE
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.utils.encoding import force_text
 
+from config.log_action import log_change
 from config.settings import AUTO_CANCEL_INTERVAL
 
 celery = Celery('tasks', broker='amqp://guest@localhost//')  # !
@@ -21,3 +26,12 @@ def auto_cancel_reservation():
                 minutes=AUTO_CANCEL_INTERVAL):
             Reservation.auto_cancel(reservation)
             reservation.save()
+            l = LogEntry.objects.log_action(
+                user_id=1,
+                content_type_id=ContentType.objects.get_for_model(reservation).pk,
+                object_id=reservation.pk,
+                object_repr=force_text(reservation),
+                action_flag=CHANGE,
+                change_message="Successfully completed auto cancellation with Celery!"
+            )
+            l.save()

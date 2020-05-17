@@ -69,10 +69,10 @@ class ApproveReservationView(generics.GenericAPIView):
     queryset = Reservation.objects.all()
 
     def get(self, request, *args, **kwargs):
-        self.perform_action()
+        self.perform_action(request)
 
-    def perform_action(self):
-        ApproveReservationService(reservation=self.get_object()).execute()
+    def perform_action(self, request):
+        ApproveReservationService(request=request, reservation=self.get_object()).execute()
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(**docs.reservation_cancel))
@@ -81,7 +81,7 @@ class CancelReservationView(generics.GenericAPIView):
     queryset = Reservation.objects.all()
 
     def get(self, request, *args, **kwargs):
-        self.perform_action()
+        self.perform_action(request)
 
-    def perform_action(self):
-        CancelReservationService(reservation=self.get_object()).execute()
+    def perform_action(self, request):
+        CancelReservationService(request=request, reservation=self.get_object()).execute()

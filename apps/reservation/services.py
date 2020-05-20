@@ -10,6 +10,7 @@ from config.log_action import log_change_mes
 
 
 class ApproveReservationService:
+    """Подтверждение бронирования"""
     def __init__(self, request, reservation):
         self.request = request
         self.reservation = reservation
@@ -40,6 +41,7 @@ class ApproveReservationService:
 
 
 class CancelReservationService:
+    """Ручная отмена бронирования"""
     def __init__(self, request, reservation):
         self.request = request
         self.reservation = reservation

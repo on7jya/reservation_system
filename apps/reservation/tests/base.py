@@ -1,10 +1,12 @@
-import random
 import datetime
+import random
 from datetime import timedelta
+
 from django.utils import timezone
+
+from apps.reservation.models import Reservation
 from apps.rooms.models import Room, Office
 from apps.users.models import Person
-from apps.reservation.models import Reservation
 
 valid_request = {
     "created_by": "10",

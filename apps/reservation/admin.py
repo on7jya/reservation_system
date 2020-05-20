@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Reservation
+
+from apps.reservation.models import Reservation
 
 
 @admin.register(Reservation)

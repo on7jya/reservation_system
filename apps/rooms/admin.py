@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Office, Room, Equipment
+
+from apps.rooms.models import Office, Room, Equipment
 
 
 @admin.register(Office)

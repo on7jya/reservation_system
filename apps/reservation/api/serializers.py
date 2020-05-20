@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 
 from pytz.reference import LocalTimezone
 from rest_framework import serializers
@@ -9,6 +9,8 @@ from config.settings import START_WORK_OFFICE, END_WORK_OFFICE
 
 
 class ReservationSerializer(serializers.ModelSerializer):
+    """Сериализатор объекта бронирования"""
+
     class Meta:
         model = Reservation
         fields = ["id", "created", "created_by", "modified", "room", "subject",
@@ -16,6 +18,7 @@ class ReservationSerializer(serializers.ModelSerializer):
                   "state", "state_canceled"]
 
     def validate(self, attrs):
+        """Проверки по времени"""
         if attrs['start_meeting_time'] >= attrs['end_meeting_time']:
             raise ValidationError({'end_meeting_time': 'End date should be after start date'})
         if attrs['start_meeting_time'] <= datetime.now(LocalTimezone()):
@@ -30,6 +33,7 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 
 class ReservationIdSerializer(serializers.Serializer):
+    """Сериализатор поля {id} объекта бронирования"""
     reservation = serializers.PrimaryKeyRelatedField(
         write_only=True,
         queryset=Reservation.objects.all().only('id'),

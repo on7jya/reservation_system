@@ -14,11 +14,11 @@
 
 #### Production
 Настроить параметры в `settings.py` для использования в продакшене.
-* `ALLOWED_HOSTS`
-* `DEBUG` (выставить `False`)
-* `SECRET_KEY` (должен быть случайным)
+* `ALLOWED_HOSTS` (cписок хостов/доменов, для которых может работать текущий сайт)
+* `DEBUG` (режим отладки, выставить `False`)
+* `SECRET_KEY` (секреттный ключ, должен быть случайным)
 * `SITE_URL` (абсолютный URL)
-* `DATABASES`
+* `DATABASES` (cловарь, содержащий настройки для всех баз данных)
 
 Здесь дополнительные параметры [Django Docs](https://docs.djangoproject.com/en/2.2/ref/settings/) или по комментариям в `settings.py`.
 
@@ -43,6 +43,11 @@ $ celery -A config beat -l info -S django
 # redis server
 $ redis-server
 ```
+
+## Links for localhost
+[Admin page](http://localhost:8000/admin)
+[Swagger](http://localhost:8000/swagger)
+[Redoc](http://localhost:8000/redoc)
 
 ## API:
 ### Reservation:

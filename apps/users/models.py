@@ -1,10 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
-
-from config import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.db import models
+from django.db.models.signals import post_save, post_delete
 from rest_framework.authtoken.models import Token
+
+from apps.reservation.signals import post_save_handler, post_delete_handler
 
 
 class Person(AbstractUser):
@@ -17,7 +16,6 @@ class Person(AbstractUser):
         ordering = ["last_login"]
 
     def __str__(self):
-        # return f"{self.last_name} {self.first_name}"
         if not self.last_name or not self.first_name:
             return f"{self.username}"
         else:
@@ -28,7 +26,5 @@ class Person(AbstractUser):
         return Token.objects.get(user=self.pk).key
 
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+post_save.connect(post_save_handler, sender=Person)
+post_delete.connect(post_delete_handler, sender=Person)

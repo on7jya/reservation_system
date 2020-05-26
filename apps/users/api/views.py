@@ -1,16 +1,13 @@
-from rest_framework import generics
+from django.http import JsonResponse
+from rest_framework import generics, status
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny
 
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny, IsAuthenticated
-
+from apps.users.api.serializers import PersonSerializer, UserLoginSerializer, UserRegisterSerializer
+from apps.users.auth_model import UserAuth
 from apps.users.models import Person
-from .serializers import PersonSerializer, RegistrationSerializer
 
 
-# @permission_classes([IsAuthenticated])
 class ListPersonAPIView(generics.ListAPIView):
     """Список всех сотрудников"""
     serializer_class = PersonSerializer
@@ -18,34 +15,35 @@ class ListPersonAPIView(generics.ListAPIView):
 
 
 class PersonAPIView(generics.RetrieveAPIView):
-    """Иныормация по конкретному сотруднику {id}"""
+    """Информация по конкретному сотруднику {id}"""
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
-
-#
-# @api_view(['POST',])
-# def registration_view(request):
-#     """Регистрация нового сотрудника (требуется username, password и password2 в post)"""
-#     serializer = RegistrationSerializer(data=request.data)
-#     data = {}
-#     if serializer.is_valid():
-#         account = serializer.save()
-#         data['response'] = "Successfully register a new user."
-#         data['email'] = account.email
-#         data['username'] = account.username
-#         token = Token.objects.get(user=account).key
-#         data['token'] = token
-#     else:
-#         data = serializer.errors
-#     return Response(data)
 
 
 @authentication_classes([])
 @permission_classes([AllowAny])
 class RegisterApi(generics.CreateAPIView):
-    # http_method_names = ['POST']
-    # permission_classes = []
-    model = Person
-    serializer_class = RegistrationSerializer
-    # queryset = Person.objects.all()
+    """Создание нового пользователя"""
+    serializer_class = UserRegisterSerializer
 
+    def post(self, request, *args, **kwargs):
+        serializer = UserRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([])
+@permission_classes([AllowAny])
+class UserLogin(generics.CreateAPIView):
+    """Логин пользователя"""
+    serializer_class = UserLoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        try:
+            user = UserAuth().do_login(request, request.data)
+            data = UserLoginSerializer(user).data
+            return JsonResponse(data, status=status.HTTP_200_OK)
+        except Person.DoesNotExist:
+            return JsonResponse('', status=status.HTTP_403_FORBIDDEN)

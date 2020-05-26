@@ -65,6 +65,7 @@ class ListReservationRoomTodayAPIView(generics.ListAPIView):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(**docs.reservation_approve))
 class ApproveReservationView(generics.GenericAPIView):
+    """Подтверждение бронирования {id}"""
     serializer_class = ReservationIdSerializer
     queryset = Reservation.objects.all()
 
@@ -77,6 +78,7 @@ class ApproveReservationView(generics.GenericAPIView):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(**docs.reservation_cancel))
 class CancelReservationView(generics.GenericAPIView):
+    """Ручная отмена бронирования {id}"""
     serializer_class = ReservationIdSerializer
     queryset = Reservation.objects.all()
 

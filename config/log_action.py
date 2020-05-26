@@ -8,7 +8,7 @@ def log_addition(object):
     keys = [str(x) for x in object.__dict__.keys() if not x.startswith('_')]
     values = [str(x) for x in object.__dict__.values()][1:]
     type = dict(zip(keys, values))
-    l = LogEntry.objects.log_action(
+    _log = LogEntry.objects.log_action(
         user_id=1,
         content_type_id=ContentType.objects.get_for_model(object).pk,
         object_id=object.pk,
@@ -16,7 +16,7 @@ def log_addition(object):
         action_flag=ADDITION,
         change_message=_(str(type))
     )
-    l.save()
+    _log.save()
 
 
 def log_change(object):
@@ -24,7 +24,7 @@ def log_change(object):
     values = [str(x) for x in object.__dict__.values()][1:]
     type = dict(zip(keys, values))
 
-    l = LogEntry.objects.log_action(
+    _log = LogEntry.objects.log_action(
         user_id=1,
         content_type_id=ContentType.objects.get_for_model(object).pk,
         object_id=object.pk,
@@ -32,7 +32,7 @@ def log_change(object):
         action_flag=CHANGE,
         change_message=_(str(type))
     )
-    l.save()
+    _log.save()
 
 
 def log_change_mes(request, object, message):
@@ -45,7 +45,7 @@ def log_change_mes(request, object, message):
         user = 1
     else:
         user = request.user.pk
-    l = LogEntry.objects.log_action(
+    _log = LogEntry.objects.log_action(
         user_id=user,
         content_type_id=ContentType.objects.get_for_model(object).pk,
         object_id=object.pk,
@@ -53,7 +53,7 @@ def log_change_mes(request, object, message):
         action_flag=CHANGE,
         change_message=message
     )
-    l.save()
+    _log.save()
 
 
 def log_delete(object):
@@ -61,7 +61,7 @@ def log_delete(object):
     values = [str(x) for x in object.__dict__.values()][1:]
     type = dict(zip(keys, values))
 
-    l = LogEntry.objects.log_action(
+    _log = LogEntry.objects.log_action(
         user_id=1,
         content_type_id=ContentType.objects.get_for_model(object).pk,
         object_id=object.pk,
@@ -69,4 +69,4 @@ def log_delete(object):
         action_flag=DELETION,
         change_message=_(str(type))
     )
-    l.save()
+    _log.save()

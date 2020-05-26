@@ -4,12 +4,14 @@ from apps.rooms.models import Office, Room, Equipment
 
 
 class OfficeSerializer(serializers.ModelSerializer):
+    """Сериализатор объекта офиса"""
     class Meta:
         model = Office
         fields = ('id', 'name')
 
 
 class RoomsSerializer(serializers.ModelSerializer):
+    """Сериализатор объекта переговорной комнаты"""
     office = OfficeSerializer
 
     class Meta:
@@ -18,6 +20,7 @@ class RoomsSerializer(serializers.ModelSerializer):
 
 
 class EquipmentSerializer(serializers.ModelSerializer):
+    """Сериализатор объекта оборудования"""
     office = OfficeSerializer
 
     class Meta:

@@ -1,12 +1,11 @@
 from rest_framework import generics
 
-from apps.rooms.models import Office, Room, Equipment
 from apps.rooms.api.serializers import OfficeSerializer, RoomsSerializer, EquipmentSerializer
-from apps.users.models import Person
+from apps.rooms.models import Office, Room, Equipment
 from apps.users.api.serializers import PersonSerializer
+from apps.users.models import Person
 
 
-# GET list
 class ListOfficeAPIView(generics.ListAPIView):
     """Список всех офисов"""
     serializer_class = OfficeSerializer
@@ -52,9 +51,6 @@ class ListEquipmentsInRoomAPIView(generics.ListAPIView):
         return Equipment.objects.filter(room__equipment=room)
 
 
-##########################################
-
-# GET + POST
 class OfficeAPIView(generics.RetrieveAPIView):
     """Информация по конкретному офису {id}"""
     serializer_class = OfficeSerializer

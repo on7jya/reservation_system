@@ -97,7 +97,7 @@ class TimeZoneTest(TestCase):
     def test_different_timezones(self):
         """ Тестируем две различные таймзоны """
         now = datetime.datetime.now()
-        now_tz = datetime.datetime.now(LocalTimezone(now))
+        now_tz = datetime.datetime.now(LocalTimezone())
         now_tz_i = datetime.datetime.now(FixedOffset((3 * 60) + 15))
 
         self.assertEqual(timesince(now), f'0\xa0минут')

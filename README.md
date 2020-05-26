@@ -1,10 +1,9 @@
 # project-011
 
-=======
 Финальный проект на Django, разработанный с помощью python 3.7.
 
 #### Setup
-Используйте `pip install -U -r requirements.txt` (в виртуальной среде python /virtualenv) для установки зависимостей.
+Используйте `pip install -U -r requirements.txt` (в виртуальной среде virtualenv или в контейнере) для установки зависимостей.
 
 #### Development
 1. Выполнить `python manage.py makemigrations` для создания миграции
@@ -46,10 +45,15 @@ $ redis-server
 
 ## Links for localhost
 [Admin page](http://localhost:8000/admin)
+
 [Swagger](http://localhost:8000/swagger)
+
 [Redoc](http://localhost:8000/redoc)
 
-## API:
+## Authorization
+Basic auth/API key with Token
+
+## API
 ### Reservation:
 | Method        | URL           | Description  | Required Data Parameters |
 | ------------- | ------------- | ------------ | ------ |
@@ -92,3 +96,5 @@ $ redis-server
 | ------------- | ------------- | ------------ | ------ |
 | **GET** | `/user/list/` |  Список всех сотрудников | - |
 | **GET** | `/user/{id}/` |  Информация по конкретному сотруднику {id} | id |
+| **POST** | `/user/register` |  Создание нового пользователя | data: {email, username, password, first_name, last_name} |
+| **POST** | `/user/login` |  Логин пользователя | data: {username, password}  |
